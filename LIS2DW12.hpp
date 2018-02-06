@@ -174,4 +174,1047 @@ public:
 		return read8(CTRL1::__address, 8);
 	}
 	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                            REG CTRL2                                             *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG CTRL2:
+	 * 8.5
+	 * Control register 2
+	 */
+	struct CTRL2
+	{
+		static const uint16_t __address = 33;
+		
+		/* Bits BOOT: */
+		/*
+		 * Boot enables retrieving the correct trimming parameters from nonvolatile memory
+		 * into registers where trimming parameters are stored.
+		 * Once the operation is over, this bit automatically returns to 0.
+		 */
+		struct BOOT
+		{
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b10000000; // [7]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits reserved_0: */
+		/* This bit must be set to ‘0’ for the correct operation of the device.  */
+		struct reserved_0
+		{
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b01000000; // [6]
+		};
+		/* Bits SOFT_RESET: */
+		/* Soft reset acts as reset for all control registers, then goes to 0.  */
+		struct SOFT_RESET
+		{
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00100000; // [5]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits CS_PU_DISC: */
+		/* Disconnect CS pull-up.  */
+		struct CS_PU_DISC
+		{
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b00010000; // [4]
+			static const uint8_t CONNECTED = 0b0; // pull-up connected to CS pin;
+			static const uint8_t DISCONNECTED = 0b1; // pull-up disconnected to CS pin)
+		};
+		/* Bits BDU: */
+		/*
+		 * Block data update.
+		 * The BDU bit is used to inhibit the update of the output registers until both upper and lower
+		 * register parts are read. In default mode (BDU = ‘0’) the output register values are updated continuously. When the BDU is activated (BDU = ‘1’), the content of the output registers is not updated until both MSB and LSB are read which avoids reading values related to different sample times.
+		 */
+		struct BDU
+		{
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b00001000; // [3]
+			static const uint8_t CONTINUOUS_UPDATE = 0b0; // continuous update
+			static const uint8_t NOT_UPDATED_UNTIL_READ = 0b1; // output registers not updated until MSB and LSB read
+		};
+		/* Bits IF_ADD_INC: */
+		/* Register address automatically incremented during multiple byte access with a serial interface (I2C or SPI).  */
+		struct IF_ADD_INC
+		{
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00000100; // [2]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits I2C_DISABLE: */
+		/* Disable I2C communication protocol.  */
+		struct I2C_DISABLE
+		{
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b00000010; // [1]
+			static const uint8_t SPI_I2C_ENABLED = 0b0; // SPI and I2C interfaces enabled
+			static const uint8_t I2C_ENABLED = 0b1; // I2C mode disabled
+		};
+		/* Bits SIM: */
+		/* SPI serial interface mode selection.  */
+		struct SIM
+		{
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b00000001; // [0]
+			static const uint8_t SPI_4_WIRE = 0b0; // 
+			static const uint8_t SPI_3_WIRE = 0b1; // 
+		};
+	};
+	
+	/* Set register CTRL2 */
+	void setCTRL2(uint8_t value)
+	{
+		write(CTRL2::__address, value, 8);
+	}
+	
+	/* Get register CTRL2 */
+	uint8_t getCTRL2()
+	{
+		return read8(CTRL2::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                            REG CTRL3                                             *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG CTRL3:
+	 * 8.6
+	 * COntrol register 3
+	 */
+	struct CTRL3
+	{
+		static const uint16_t __address = 34;
+		
+		/* Bits ST: */
+		struct ST
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b00; // 2'b0
+			static const uint8_t mask = 0b11000000; // [6,7]
+			static const uint8_t NORMAL = 0b00; // Normal mode (self-test disabled)
+			static const uint8_t POSITIVE_SIGN = 0b01; // Positive sign self-test
+			static const uint8_t NEGATIVE_SIGN = 0b10; // Negative sign self-test
+			static const uint8_t unused_0 = 0b11; // 
+		};
+		/* Bits PP_OD: */
+		/* Push-pull/open-drain selection on interrupt pad.  */
+		struct PP_OD
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b00100000; // [5]
+			static const uint8_t PUSH_PULL = 0b0; // push-pull
+			static const uint8_t PPEN_DRAIN = 0b1; // open-drain
+		};
+		/* Bits LIR: */
+		/*
+		 * Latched Interrupt. Switches between latched ('1'-logic) and pulsed ('0'-logic) mode for function source
+		 * signals and interrupts routed to pins (wakeup, single/double-tap).
+		 */
+		struct LIR
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b00010000; // [4]
+			static const uint8_t NOT_LATCHED = 0b0; // interrupt request not latched
+			static const uint8_t LATCHED = 0b1; // interrupt request latched
+		};
+		/* Bits H_LACTIVE: */
+		/* Interrupt active high, low.  */
+		struct H_LACTIVE
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b00001000; // [3]
+			static const uint8_t ACTIVE_HIGH = 0b0; // active high
+			static const uint8_t ACTVE_LOW = 0b1; // active low
+		};
+		/* Bits unused_0: */
+		struct unused_0
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00000100; // [2]
+		};
+		/* Bits SLP_MODE_SEL: */
+		/* Single data conversion on demand mode selection  */
+		struct SLP_MODE_SEL
+		{
+			/* MODE rw */
+			static const uint8_t mask = 0b00000010; // [1]
+			static const uint8_t WITH_EXTERNAL_TRIG = 0b0; // enabled with external trigger on INT2
+			static const uint8_t BY_I2C_SPI = 0b1; // enabled by I2C/SPI writing SLP_MODE_1 to 1.
+		};
+		/* Bits SLP_MODE_1: */
+		/*
+		 * Single data conversion on demand mode enable. When SLP_MODE_SEL = '1' and this bit is set to '1' logic,
+		 * single data conversion on demand mode starts. When XL data are available in the registers, this bit is set
+		 * to '0' automatically and the device is ready for another triggered session.
+		 */
+		struct SLP_MODE_1
+		{
+			/* MODE rw */
+			static const uint8_t mask = 0b00000001; // [0]
+		};
+	};
+	
+	/* Set register CTRL3 */
+	void setCTRL3(uint8_t value)
+	{
+		write(CTRL3::__address, value, 8);
+	}
+	
+	/* Get register CTRL3 */
+	uint8_t getCTRL3()
+	{
+		return read8(CTRL3::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                     REG CTRL4_INT1_PAD_CTRL                                      *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG CTRL4_INT1_PAD_CTRL:
+	 * 8.7
+	 * Control register 4
+	 */
+	struct CTRL4_INT1_PAD_CTRL
+	{
+		static const uint16_t __address = 35;
+		
+		/* Bits INT1_6D: */
+		/* 6D recognition is routed to INT1 pad.  */
+		struct INT1_6D
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b10000000; // [7]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits INT1_SINGLE_TAP: */
+		/* Single-tap recognition is routed to INT1 pad.  */
+		struct INT1_SINGLE_TAP
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b01000000; // [6]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits INT1_WU: */
+		/* Wakeup recognition is routed to INT1 pad.  */
+		struct INT1_WU
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00100000; // [5]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits INT1_FF: */
+		/* Free-fall recognition is routed to INT1 pad.  */
+		struct INT1_FF
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00010000; // [4]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits INT1_TAP: */
+		/* Double-tap recognition is routed to INT1 pad.  */
+		struct INT1_TAP
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00001000; // [3]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits INT1_DIFF5: */
+		/* FIFO full recognition is routed to INT1 pad.  */
+		struct INT1_DIFF5
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00000100; // [2]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits INT1_FTH: */
+		/* FIFO threshold interrupt is routed to INT1 pad.  */
+		struct INT1_FTH
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00000010; // [1]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits INT1_DRDY: */
+		/* Data-Ready is routed to INT1 pad.  */
+		struct INT1_DRDY
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00000001; // [0]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+	};
+	
+	/* Set register CTRL4_INT1_PAD_CTRL */
+	void setCTRL4_INT1_PAD_CTRL(uint8_t value)
+	{
+		write(CTRL4_INT1_PAD_CTRL::__address, value, 8);
+	}
+	
+	/* Get register CTRL4_INT1_PAD_CTRL */
+	uint8_t getCTRL4_INT1_PAD_CTRL()
+	{
+		return read8(CTRL4_INT1_PAD_CTRL::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                     REG CTRL5_INT2_PAD_CTRL                                      *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG CTRL5_INT2_PAD_CTRL:
+	 * 8.8
+	 * Control register 4
+	 */
+	struct CTRL5_INT2_PAD_CTRL
+	{
+		static const uint16_t __address = 36;
+		
+		/* Bits INT2_SLEEP_STATE: */
+		/* Enable routing of SLEEP_STATE on INT2 pad.   */
+		struct INT2_SLEEP_STATE
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b10000000; // [7]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits INT2_SLEEP_CHG: */
+		/* Sleep change status routed to INT2 pad.  */
+		struct INT2_SLEEP_CHG
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b01000000; // [6]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits INT2_BOOT: */
+		/* Boot state routed to INT2 pad.  */
+		struct INT2_BOOT
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00100000; // [5]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits INT2_DRDY_T: */
+		/* Temperature data-ready is routed to INT2.  */
+		struct INT2_DRDY_T
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00010000; // [4]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits INT2_OVR: */
+		/* FIFO overrun interrupt is routed to INT2 pad.  */
+		struct INT2_OVR
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00001000; // [3]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits INT2_DIFF5: */
+		/* FIFO full recognition is routed to INT2 pad.  */
+		struct INT2_DIFF5
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00000100; // [2]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits INT2_FTH: */
+		/* FIFO threshold interrupt is routed to INT2 pad.  */
+		struct INT2_FTH
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00000010; // [1]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits INT2_DRDY: */
+		/* Data-ready is routed to INT2 pad.  */
+		struct INT2_DRDY
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b00000001; // [0]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+	};
+	
+	/* Set register CTRL5_INT2_PAD_CTRL */
+	void setCTRL5_INT2_PAD_CTRL(uint8_t value)
+	{
+		write(CTRL5_INT2_PAD_CTRL::__address, value, 8);
+	}
+	
+	/* Get register CTRL5_INT2_PAD_CTRL */
+	uint8_t getCTRL5_INT2_PAD_CTRL()
+	{
+		return read8(CTRL5_INT2_PAD_CTRL::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                            REG CTRL6                                             *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG CTRL6:
+	 * 8.9
+	 * Control register 6.
+	 */
+	struct CTRL6
+	{
+		static const uint16_t __address = 37;
+		
+		/* Bits BW_FILT: */
+		/* Bandwidth selection  */
+		struct BW_FILT
+		{
+			/* MODE rw */
+			static const uint8_t mask = 0b11000000; // [6,7]
+			static const uint8_t ODR_2 = 0b00; // ODR/2 (up to ODR = 800 Hz, 400 Hz when ODR = 1600 Hz)
+			static const uint8_t ODR_4 = 0b01; // ODR/4 (HP/LP)
+			static const uint8_t ODR_10 = 0b10; // ODR/10 (HP/LP
+			static const uint8_t ODR_20 = 0b11; // ODR/20 (HP/LP
+		};
+		/* Bits FS: */
+		/* Full-scale selection.  */
+		struct FS
+		{
+			/* MODE rw */
+			static const uint8_t mask = 0b00110000; // [4,5]
+			static const uint8_t SCALE_2_G = 0b00; // ±2 g
+			static const uint8_t SCALE_4_G = 0b01; // ±4 g
+			static const uint8_t SCALE_8_G = 0b10; // ±8 g
+			static const uint8_t SCALE_16_G = 0b11; // ±16 g §
+		};
+		/* Bits FDS: */
+		/* Filtered data type selection.  */
+		struct FDS
+		{
+			/* MODE rw */
+			static const uint8_t mask = 0b00001000; // [3]
+			static const uint8_t LOW_PASS = 0b0; // low-pass filter path selected
+			static const uint8_t HIGH_PASS = 0b1; // high-pass filter path selected)
+		};
+		/* Bits LOW_NOISE: */
+		/* Low-noise configuration.  */
+		struct LOW_NOISE
+		{
+			/* MODE rw */
+			static const uint8_t mask = 0b00000100; // [2]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+	};
+	
+	/* Set register CTRL6 */
+	void setCTRL6(uint8_t value)
+	{
+		write(CTRL6::__address, value, 8);
+	}
+	
+	/* Get register CTRL6 */
+	uint8_t getCTRL6()
+	{
+		return read8(CTRL6::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                            REG OUT_T                                             *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG OUT_T:
+	 * 8.10
+	 * Temperature output register in 8-bit resolution (r)
+	 * The value is expressed as two’s complement sign. Sensitivity = 1°C/LSB
+	 * 0 LSB represents T=25 °C ambient.
+	 */
+	struct OUT_T
+	{
+		static const uint16_t __address = 38;
+		
+		/* Bits OUT_T: */
+		struct OUT_T_
+		{
+			/* MODE - */
+			static const uint8_t mask = 0b11111111; // [0,1,2,3,4,5,6,7]
+		};
+	};
+	
+	/* Set register OUT_T */
+	void setOUT_T(uint8_t value)
+	{
+		write(OUT_T::__address, value, 8);
+	}
+	
+	/* Get register OUT_T */
+	uint8_t getOUT_T()
+	{
+		return read8(OUT_T::__address, 8);
+	}
+	
+	
+	/*****************************************************************************************************\
+	 *                                                                                                   *
+	 *                                            REG STATUS                                             *
+	 *                                                                                                   *
+	\*****************************************************************************************************/
+	
+	/*
+	 * REG STATUS:
+	 * 8.11
+	 * Status register (r).
+	 */
+	struct STATUS
+	{
+		static const uint16_t __address = 39;
+		
+		/* Bits FIFO_THS: */
+		/* FIFO threshold status flag.  */
+		struct FIFO_THS
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b10000000; // [7]
+			static const uint8_t BELOW_TRESHOLD = 0b0; // FIFO filling is lower than threshold level
+			static const uint8_t AT_OR_ABOVE_THRESHOLD = 0b1; // FIFO filling is equal to or higher than the threshold level.
+		};
+		/* Bits WU_IA: */
+		/* Wakeup event detection status.  */
+		struct WU_IA
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b01000000; // [6]
+			static const uint8_t NOT_DETECTED = 0b0; // Wakeup event not detected
+			static const uint8_t DETECTED = 0b1; // Wakeup event detected
+		};
+		/* Bits SLLEP_STATE: */
+		/* Sleep event status.  */
+		struct SLLEP_STATE
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00100000; // [5]
+			static const uint8_t NOT_DETECTED = 0b0; // Sleep event not detected
+			static const uint8_t DETECTED = 0b1; // Sleep event detected
+		};
+		/* Bits DOUBLE_TAP: */
+		/* Double-tap event status  */
+		struct DOUBLE_TAP
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00010000; // [4]
+			static const uint8_t NOT_DETECTED = 0b0; // Double-tap event not detected
+			static const uint8_t DETECTED = 0b1; // Double-tap event detected
+		};
+		/* Bits SINGLE_TAP: */
+		/* Single-tap event status  */
+		struct SINGLE_TAP
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00001000; // [3]
+			static const uint8_t NOT_DETECTED = 0b0; // Single-tap event not detected
+			static const uint8_t DETECTED = 0b1; // Single-tap event detected
+		};
+		/* Bits D6_IA: */
+		/* Source of change in position portrait/landscape/face-up/face-down.  */
+		struct D6_IA
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00000100; // [2]
+			static const uint8_t NOT_DETECTED = 0b0; // no event detected
+			static const uint8_t DETECTED = 0b1; // a change in position detected
+		};
+		/* Bits FF_IA: */
+		/* Free-fall event detection status.  */
+		struct FF_IA
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00000010; // [1]
+			static const uint8_t NOT_DETECTED = 0b0; // free-fall event not detected
+			static const uint8_t DETECTED = 0b1; // free-fall event detected
+		};
+		/* Bits DRDY: */
+		/* Data-ready status.  */
+		struct DRDY
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00000001; // [0]
+			static const uint8_t NOT_READY = 0b0; // not ready
+			static const uint8_t DATA_AVAILABLE = 0b1; // X-, Y- and Z-axis new data available
+		};
+	};
+	
+	/* Set register STATUS */
+	void setSTATUS(uint8_t value)
+	{
+		write(STATUS::__address, value, 8);
+	}
+	
+	/* Get register STATUS */
+	uint8_t getSTATUS()
+	{
+		return read8(STATUS::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                            REG OUT_X                                             *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG OUT_X:
+	 * X-axis output register (r).
+	 * It forms the output value expressed as a 16-bit word in 2's complement.
+	 */
+	struct OUT_X
+	{
+		static const uint16_t __address = 40;
+		
+		/* Bits reserved_0: */
+		struct reserved_0
+		{
+			/* MODE r */
+			static const uint16_t dflt = 0b00; // 2'd0
+			static const uint16_t mask = 0b1100000000000000; // [14,15]
+		};
+		/* Bits OUT_X: */
+		/* NOTE: If Low-Power Mode 1 is enabled, this bit2 15..14 are set to 0.  */
+		struct OUT_X_
+		{
+			/* MODE r */
+			static const uint16_t mask = 0b0011111111111111; // [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+		};
+	};
+	
+	/* Set register OUT_X */
+	void setOUT_X(uint16_t value)
+	{
+		write(OUT_X::__address, value, 16);
+	}
+	
+	/* Get register OUT_X */
+	uint16_t getOUT_X()
+	{
+		return read16(OUT_X::__address, 16);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                            REG OUT_Y                                             *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG OUT_Y:
+	 * Y-axis output register (r).
+	 * It forms the output value expressed as a 16-bit word in 2's complement.
+	 */
+	struct OUT_Y
+	{
+		static const uint16_t __address = 42;
+		
+		/* Bits reserved_0: */
+		struct reserved_0
+		{
+			/* MODE r */
+			static const uint16_t dflt = 0b00; // 2'd0
+			static const uint16_t mask = 0b1100000000000000; // [14,15]
+		};
+		/* Bits OUT_Y: */
+		/* NOTE: If Low-Power Mode 1 is enabled, this bit2 15..14 are set to 0.  */
+		struct OUT_Y_
+		{
+			/* MODE r */
+			static const uint16_t mask = 0b0011111111111111; // [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+		};
+	};
+	
+	/* Set register OUT_Y */
+	void setOUT_Y(uint16_t value)
+	{
+		write(OUT_Y::__address, value, 16);
+	}
+	
+	/* Get register OUT_Y */
+	uint16_t getOUT_Y()
+	{
+		return read16(OUT_Y::__address, 16);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                            REG OUT_Z                                             *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG OUT_Z:
+	 * Z-axis output register (r).
+	 * It forms the output value expressed as a 16-bit word in 2's complement.
+	 */
+	struct OUT_Z
+	{
+		static const uint16_t __address = 44;
+		
+		/* Bits reserved_0: */
+		struct reserved_0
+		{
+			/* MODE r */
+			static const uint16_t dflt = 0b00; // 2'd0
+			static const uint16_t mask = 0b1100000000000000; // [14,15]
+		};
+		/* Bits OUT_Z: */
+		/* NOTE: If Low-Power Mode 1 is enabled, this bit2 15..14 are set to 0.  */
+		struct OUT_Z_
+		{
+			/* MODE r */
+			static const uint16_t mask = 0b0011111111111111; // [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+		};
+	};
+	
+	/* Set register OUT_Z */
+	void setOUT_Z(uint16_t value)
+	{
+		write(OUT_Z::__address, value, 16);
+	}
+	
+	/* Get register OUT_Z */
+	uint16_t getOUT_Z()
+	{
+		return read16(OUT_Z::__address, 16);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                           REG OUT_X_L                                            *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG OUT_X_L:
+	 * 8.12
+	 * X-axis LSB output register (r).
+	 * 1.   If Low-Power Mode 1 is enabled, this bit is set to 0.
+	 * The 8 least significant bits of linear acceleration sensor X-axis output. Together with the
+	 * OUT_X_H (29h) register, it forms the output value expressed as a 16-bit word in 2's complement.
+	 * X_H7	X_H6	X_H5	X_H4	X_H3	X_H2	X_H1	X_H0
+	 * The 8 most significant bits of linear acceleration sensor X-axis output. Together with the
+	 * OUT_X_L (28h) register, it forms the output value expressed as a 16-bit word in 2's complement.
+	 */
+	struct OUT_X_L
+	{
+		static const uint16_t __address = 40;
+		
+		/* Bits OUT_X_L: */
+		struct OUT_X_L_
+		{
+			/* MODE - */
+			static const uint8_t mask = 0b11111111; // [0,1,2,3,4,5,6,7]
+		};
+	};
+	
+	/* Set register OUT_X_L */
+	void setOUT_X_L(uint8_t value)
+	{
+		write(OUT_X_L::__address, value, 8);
+	}
+	
+	/* Get register OUT_X_L */
+	uint8_t getOUT_X_L()
+	{
+		return read8(OUT_X_L::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                           REG OUT_Y_L                                            *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG OUT_Y_L:
+	 * 8.14
+	 * Y-axis LSB output register (r).
+	 * 1.   If Low-Power Mode 1 is enabled, this bit is set to 0.
+	 * The 8 least significant bits of linear acceleration sensor Y-axis output. Together with the
+	 * OUT_Y_H (2Bh) register, it forms the output value expressed as a 16-bit word in 2's complement.
+	 */
+	struct OUT_Y_L
+	{
+		static const uint16_t __address = 42;
+		
+		/* Bits OUT_Y_L: */
+		struct OUT_Y_L_
+		{
+			/* MODE - */
+			static const uint8_t mask = 0b11111111; // [0,1,2,3,4,5,6,7]
+		};
+	};
+	
+	/* Set register OUT_Y_L */
+	void setOUT_Y_L(uint8_t value)
+	{
+		write(OUT_Y_L::__address, value, 8);
+	}
+	
+	/* Get register OUT_Y_L */
+	uint8_t getOUT_Y_L()
+	{
+		return read8(OUT_Y_L::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                           REG OUT_Y_H                                            *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG OUT_Y_H:
+	 * 8.15
+	 * Y-axis MSB output register (r).
+	 * OUT_Y_L (2Ah) register, it forms the output value expressed as a 16-bit word in 2's complement.
+	 */
+	struct OUT_Y_H
+	{
+		static const uint16_t __address = 43;
+		
+		/* Bits OUT_Y_H: */
+		struct OUT_Y_H_
+		{
+			/* MODE - */
+			static const uint8_t mask = 0b11111111; // [0,1,2,3,4,5,6,7]
+		};
+	};
+	
+	/* Set register OUT_Y_H */
+	void setOUT_Y_H(uint8_t value)
+	{
+		write(OUT_Y_H::__address, value, 8);
+	}
+	
+	/* Get register OUT_Y_H */
+	uint8_t getOUT_Y_H()
+	{
+		return read8(OUT_Y_H::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                           REG OUT_Z_L                                            *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG OUT_Z_L:
+	 * 8.16
+	 * Z-axis LSB output register (r).
+	 * Z_L7	Z_L6	Z_L5	Z_L4	Z_L3(1)	Z_L2(1)	0	0
+	 * 1.   If Low-power Mode 1 is enabled, this bit is set to 0.
+	 * The 8 least significant bits of linear acceleration sensor Z-axis output. Together with the
+	 * OUT_Z_H (2Dh) register, it forms the output value expressed as a 16-bit word in 2's complement.
+	 * Z_H7	Z_H6	Z_H5	Z_H4	Z_H3	Z_H2	Z_H1	Z_H0
+	 * The 8 most significant bits of linear acceleration sensor Z-axis output. Together with the
+	 * OUT_Z_L (2Ch) register, it forms the output value expressed as a 16-bit word in 2's complement.
+	 */
+	struct OUT_Z_L
+	{
+		static const uint16_t __address = 44;
+		
+		/* Bits OUT_Z_L: */
+		struct OUT_Z_L_
+		{
+			/* MODE - */
+			static const uint8_t mask = 0b11111111; // [0,1,2,3,4,5,6,7]
+		};
+	};
+	
+	/* Set register OUT_Z_L */
+	void setOUT_Z_L(uint8_t value)
+	{
+		write(OUT_Z_L::__address, value, 8);
+	}
+	
+	/* Get register OUT_Z_L */
+	uint8_t getOUT_Z_L()
+	{
+		return read8(OUT_Z_L::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                          REG FIFO_CTRL                                           *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG FIFO_CTRL:
+	 * 8.18
+	 * FIFO control register
+	 */
+	struct FIFO_CTRL
+	{
+		static const uint16_t __address = 46;
+		
+		/* Bits FMODE: */
+		/* FIFO mode selection bits.  */
+		struct FMODE
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b000; // 3'b0
+			static const uint8_t mask = 0b11100000; // [5,6,7]
+			static const uint8_t BYPASS = 0b00; // Bypass mode: FIFO turned off
+			static const uint8_t FIFO = 0b01; // FIFO mode: Stops collecting data when FIFO is full.
+			static const uint8_t reserved_0 = 0b10; // 
+			static const uint8_t CONTINUOUS_TO_FIFO = 0b11; // Continuous-to-FIFO: Stream mode until trigger is deasserted, then FIFO mode
+			static const uint8_t BYPASS_TO_CONTINUOUS = 0b100; // Bypass-to-Continuous: Bypass mode until trigger is deasserted, then FIFO mode
+			static const uint8_t reserved_1 = 0b101; // 
+			static const uint8_t CONTINUOUS = 0b110; // Continuous mode: If the FIFO is full, the new sample overwrites the older sample.
+			static const uint8_t reserved_2 = 0b111; // 
+		};
+		/* Bits FTH: */
+		/* FIFO threshold level setting.  */
+		struct FTH
+		{
+			/* MODE rw */
+			static const uint8_t mask = 0b00011111; // [0,1,2,3,4]
+		};
+	};
+	
+	/* Set register FIFO_CTRL */
+	void setFIFO_CTRL(uint8_t value)
+	{
+		write(FIFO_CTRL::__address, value, 8);
+	}
+	
+	/* Get register FIFO_CTRL */
+	uint8_t getFIFO_CTRL()
+	{
+		return read8(FIFO_CTRL::__address, 8);
+	}
+	
+	
+	/*****************************************************************************************************\
+	 *                                                                                                   *
+	 *                                         REG FIFO_SAMPLES                                          *
+	 *                                                                                                   *
+	\*****************************************************************************************************/
+	
+	/*
+	 * REG FIFO_SAMPLES:
+	 * 8.19
+	 * FIFO_SAMPLES control register.
+	 */
+	struct FIFO_SAMPLES
+	{
+		static const uint16_t __address = 47;
+		
+		/* Bits FIFO_FTH: */
+		/* FIFO threshold status flag.  */
+		struct FIFO_FTH
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b10000000; // [7]
+			static const uint8_t BELOW_THRESHOLD = 0b0; // FIFO filling is lower than threshold level
+			static const uint8_t AT_OR_ABOVE_THRESHOLD = 0b1; // FIFO filling is equal to or higher than the threshold level.)
+		};
+		/* Bits FIFO_OVR: */
+		/* FIFO overrun status.  */
+		struct FIFO_OVR
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b01000000; // [6]
+			static const uint8_t NOT_FILLED = 0b0; // FIFO is not completely filled
+			static const uint8_t FILLED = 0b1; // FIFO is completely filled and at least one sample has been overwritten
+		};
+		/* Bits DIFF: */
+		/*
+		 * Represents the number of unread samples stored in FIFO.
+		 * (000000 = FIFO empty; 100000 = FIFO full, 32 unread samples.
+		 */
+		struct DIFF
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00111111; // [0,1,2,3,4,5]
+		};
+	};
+	
+	/* Set register FIFO_SAMPLES */
+	void setFIFO_SAMPLES(uint8_t value)
+	{
+		write(FIFO_SAMPLES::__address, value, 8);
+	}
+	
+	/* Get register FIFO_SAMPLES */
+	uint8_t getFIFO_SAMPLES()
+	{
+		return read8(FIFO_SAMPLES::__address, 8);
+	}
+	
 };
