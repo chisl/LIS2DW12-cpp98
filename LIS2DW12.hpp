@@ -674,41 +674,41 @@ public:
 	}
 	
 	
-	/****************************************************************************************************\
-	 *                                                                                                  *
-	 *                                            REG OUT_T                                             *
-	 *                                                                                                  *
-	\****************************************************************************************************/
+	/*****************************************************************************************************\
+	 *                                                                                                   *
+	 *                                            REG OUT_T2                                             *
+	 *                                                                                                   *
+	\*****************************************************************************************************/
 	
 	/*
-	 * REG OUT_T:
+	 * REG OUT_T2:
 	 * 8.10
 	 * Temperature output register in 8-bit resolution (r)
 	 * The value is expressed as two’s complement sign. Sensitivity = 1°C/LSB
 	 * 0 LSB represents T=25 °C ambient.
 	 */
-	struct OUT_T
+	struct OUT_T2
 	{
 		static const uint16_t __address = 38;
 		
-		/* Bits OUT_T: */
-		struct OUT_T_
+		/* Bits OUT_T2: */
+		struct OUT_T2_
 		{
 			/* MODE - */
 			static const uint8_t mask = 0b11111111; // [0,1,2,3,4,5,6,7]
 		};
 	};
 	
-	/* Set register OUT_T */
-	void setOUT_T(uint8_t value)
+	/* Set register OUT_T2 */
+	void setOUT_T2(uint8_t value)
 	{
-		write(OUT_T::__address, value, 8);
+		write(OUT_T2::__address, value, 8);
 	}
 	
-	/* Get register OUT_T */
-	uint8_t getOUT_T()
+	/* Get register OUT_T2 */
+	uint8_t getOUT_T2()
 	{
-		return read8(OUT_T::__address, 8);
+		return read8(OUT_T2::__address, 8);
 	}
 	
 	
@@ -1215,6 +1215,300 @@ public:
 	uint8_t getFIFO_SAMPLES()
 	{
 		return read8(FIFO_SAMPLES::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                          REG TAP_THS_X                                           *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG TAP_THS_X:
+	 * 8.20
+	 * 4D configuration enable and TAP threshold configuration.
+	 */
+	struct TAP_THS_X
+	{
+		static const uint16_t __address = 48;
+		
+		/* Bits D4_EN: */
+		/* 4D detection portrait/landscape position enable.  */
+		struct D4_EN
+		{
+			/* MODE rw */
+			static const uint8_t mask = 0b10000000; // [7]
+			static const uint8_t NO_DETECTION = 0b0; // no position detected
+			static const uint8_t DETECTION = 0b1; // portrait/landscape detection and face-up/face-down position enabled).
+		};
+		/* Bits D6_THS: */
+		/* Thresholds for 4D/6D function @ FS = ±2 g  */
+		struct D6_THS
+		{
+			/* MODE rw */
+			static const uint8_t mask = 0b01100000; // [5,6]
+			static const uint8_t THRESHOLD_6 = 0b00; // 6 (80 degrees)
+			static const uint8_t THRESHOLD_11 = 0b01; // 11 (70 degrees)
+			static const uint8_t THRESHOLD_16 = 0b10; // 16 (60 degrees)
+			static const uint8_t THRESHOLD_21 = 0b11; // 21 (50 degrees
+		};
+		/* Bits TAP_THSX: */
+		/* Threshold for TAP recognition @ FS = ±2 g on X direction  */
+		struct TAP_THSX
+		{
+			/* MODE rw */
+			static const uint8_t mask = 0b00011111; // [0,1,2,3,4]
+		};
+	};
+	
+	/* Set register TAP_THS_X */
+	void setTAP_THS_X(uint8_t value)
+	{
+		write(TAP_THS_X::__address, value, 8);
+	}
+	
+	/* Get register TAP_THS_X */
+	uint8_t getTAP_THS_X()
+	{
+		return read8(TAP_THS_X::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                          REG TAP_THS_Y                                           *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG TAP_THS_Y:
+	 * 8.21
+	 */
+	struct TAP_THS_Y
+	{
+		static const uint16_t __address = 49;
+		
+		/* Bits TAP_PRIOR: */
+		/*
+		 * Selection  of axis priority for tap detection.
+		 * Max priority / Mid priority / Min priority
+		 */
+		struct TAP_PRIOR
+		{
+			static const uint8_t mask = 0b11100000; // [5,6,7]
+			static const uint8_t XYZ = 0b00; // 
+			static const uint8_t YXZ = 0b01; // 
+			static const uint8_t XZY = 0b10; // 
+			static const uint8_t ZYX = 0b11; // 
+			static const uint8_t XYZ_2 = 0b100; // 
+			static const uint8_t YZX_2 = 0b101; // 
+			static const uint8_t ZXY_2 = 0b110; // 
+			static const uint8_t ZYX_2 = 0b111; // 
+		};
+		/* Bits TAP_THSY: */
+		/* Threshold for tap recognition @ FS = ±2 g on Y direction.  */
+		struct TAP_THSY
+		{
+			static const uint8_t mask = 0b00011111; // [0,1,2,3,4]
+		};
+	};
+	
+	/* Set register TAP_THS_Y */
+	void setTAP_THS_Y(uint8_t value)
+	{
+		write(TAP_THS_Y::__address, value, 8);
+	}
+	
+	/* Get register TAP_THS_Y */
+	uint8_t getTAP_THS_Y()
+	{
+		return read8(TAP_THS_Y::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                          REG TAP_THS_Z                                           *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG TAP_THS_Z:
+	 * 8.22
+	 */
+	struct TAP_THS_Z
+	{
+		static const uint16_t __address = 50;
+		
+		/* Bits TAP_X_EN: */
+		/* Enables X direction in tap recognition.  */
+		struct TAP_X_EN
+		{
+			static const uint8_t mask = 0b10000000; // [7]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits TAP_Y_EN: */
+		/* Enables Y direction in tap recognition.  */
+		struct TAP_Y_EN
+		{
+			static const uint8_t mask = 0b01000000; // [6]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits TAP_Z_EN: */
+		/* Enables Z direction in tap recognition.  */
+		struct TAP_Z_EN
+		{
+			static const uint8_t mask = 0b00100000; // [5]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits TAP_THSZ: */
+		/* Threshold for tap recognition @ FS = ±2 g on Z direction.  */
+		struct TAP_THSZ
+		{
+			static const uint8_t mask = 0b00011111; // [0,1,2,3,4]
+		};
+	};
+	
+	/* Set register TAP_THS_Z */
+	void setTAP_THS_Z(uint8_t value)
+	{
+		write(TAP_THS_Z::__address, value, 8);
+	}
+	
+	/* Get register TAP_THS_Z */
+	uint8_t getTAP_THS_Z()
+	{
+		return read8(TAP_THS_Z::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                           REG INT_DUR                                            *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG INT_DUR:
+	 * Interrupt duration register
+	 */
+	struct INT_DUR
+	{
+		static const uint16_t __address = 51;
+		
+		/* Bits LATENCY: */
+		/*
+		 * Duration of maximum time gap for double-tap recognition. When double-tap recognition is enabled, this
+		 * register expresses the maximum time between two successive detected taps to determine a double-tap event.
+		 * Default value is LATENCY = 0000 (which is 16 * 1/ODR)
+		 * 1 LSB = 32 * 1/ODR.
+		 */
+		struct LATENCY
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0000; // 4'd0
+			static const uint8_t mask = 0b11110000; // [4,5,6,7]
+		};
+		/* Bits QUIET: */
+		/*
+		 * Expected quiet time after a tap detection: this register represents the time after the first detected
+		 * tap in which there must not be any overthreshold event.
+		 * Default value is QUIET[1:0] = 00 (which is 2 * 1/ODR)
+		 * 1 LSB = 4 * 1/ODR
+		 */
+		struct QUIET
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b00; // 2'd0
+			static const uint8_t mask = 0b00001100; // [2,3]
+		};
+		/* Bits SHOCK: */
+		/*
+		 * Maximum duration of over-threshold event: this register represents the maximum time of an
+		 * over-threshold signal detection to be recognized as a tap event.
+		 * Default value is SHOCK[1:0] = 00 (which is 4 * 1/ODR)
+		 * 1 LSB = 8 *1/ODR
+		 */
+		struct SHOCK
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b00; // 2'd0
+			static const uint8_t mask = 0b00000011; // [0,1]
+		};
+	};
+	
+	/* Set register INT_DUR */
+	void setINT_DUR(uint8_t value)
+	{
+		write(INT_DUR::__address, value, 8);
+	}
+	
+	/* Get register INT_DUR */
+	uint8_t getINT_DUR()
+	{
+		return read8(INT_DUR::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                         REG WAKE_UP_THS                                          *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG WAKE_UP_THS:
+	 * 8.24
+	 * Wakeup threshold register.
+	 */
+	struct WAKE_UP_THS
+	{
+		static const uint16_t __address = 52;
+		
+		/* Bits SINGLE_DOUBLE_TAP: */
+		/* Enable single/double-tap event.  */
+		struct SINGLE_DOUBLE_TAP
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b10000000; // [7]
+			static const uint8_t ONLY_SINGLE = 0b0; // only single-tap event is enabled
+			static const uint8_t SINGLE_AND_DOUBLE = 0b1; // single and double-tap events are enabled
+		};
+		/* Bits SLEEP_ON: */
+		/* Sleep (inactivity) enable.  */
+		struct SLEEP_ON
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b01000000; // [6]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits WK_THS: */
+		/* Wakeup threshold, 6-bit unsigned 1 LSB = 1/64 of FS.  */
+		struct WK_THS
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b000000; // 6'b0
+			static const uint8_t mask = 0b00111111; // [0,1,2,3,4,5]
+		};
+	};
+	
+	/* Set register WAKE_UP_THS */
+	void setWAKE_UP_THS(uint8_t value)
+	{
+		write(WAKE_UP_THS::__address, value, 8);
+	}
+	
+	/* Get register WAKE_UP_THS */
+	uint8_t getWAKE_UP_THS()
+	{
+		return read8(WAKE_UP_THS::__address, 8);
 	}
 	
 };
