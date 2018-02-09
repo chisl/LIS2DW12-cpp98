@@ -1511,4 +1511,722 @@ public:
 		return read8(WAKE_UP_THS::__address, 8);
 	}
 	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                         REG WAKE_UP_DUR                                          *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG WAKE_UP_DUR:
+	 * 8.25
+	 * Wakeup and sleep duration configuration register
+	 */
+	struct WAKE_UP_DUR
+	{
+		static const uint16_t __address = 53;
+		
+		/* Bits FF_DUR5: */
+		/*
+		 * Free-fall duration. In conjunction with FF_DUR [4:0] bit in FREE_FALL (36h) register.
+		 * 1 LSB = 1 * 1/ODR
+		 */
+		struct FF_DUR5
+		{
+			/* MODE rw */
+			static const uint8_t mask = 0b10000000; // [7]
+		};
+		/* Bits WAKE_DUR: */
+		/* Wakeup duration. 1 LSB = 1 *1/ODR  */
+		struct WAKE_DUR
+		{
+			/* MODE rw */
+			static const uint8_t mask = 0b01100000; // [5,6]
+		};
+		/* Bits STATIONARY: */
+		/*
+		 * Enable stationary detection / motion detection with no automatic ODR change
+		 * when detecting stationary state.
+		 */
+		struct STATIONARY
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b00010000; // [4]
+			static const uint8_t DISABLED = 0b0; // 
+			static const uint8_t ENABLED = 0b1; // 
+		};
+		/* Bits SLEEP_DUR: */
+		/*
+		 * Duration to go in sleep mode.
+		 * Default value is SLEEP_ DUR[3:0] = 0000 (which is 16 * 1/ODR)
+		 * 1 LSB = 512 * 1/ODR
+		 */
+		struct SLEEP_DUR
+		{
+			/* MODE rw */
+			static const uint8_t dflt = 0b0000; // 4'b0
+			static const uint8_t mask = 0b00001111; // [0,1,2,3]
+		};
+	};
+	
+	/* Set register WAKE_UP_DUR */
+	void setWAKE_UP_DUR(uint8_t value)
+	{
+		write(WAKE_UP_DUR::__address, value, 8);
+	}
+	
+	/* Get register WAKE_UP_DUR */
+	uint8_t getWAKE_UP_DUR()
+	{
+		return read8(WAKE_UP_DUR::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                          REG FREE_FALL                                           *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG FREE_FALL:
+	 * 8.26
+	 * Free-fall duration and threshold configuration register
+	 */
+	struct FREE_FALL
+	{
+		static const uint16_t __address = 54;
+		
+		/* Bits FF_DUR: */
+		/*
+		 * Free-fall duration. In conjunction with FF_DUR5 bit in WAKE_UP_DUR (35h)
+		 * register. 1 LSB = 1 * 1/ODR
+		 */
+		struct FF_DUR
+		{
+			/* MODE rw */
+			static const uint8_t mask = 0b11111000; // [3,4,5,6,7]
+		};
+		/* Bits FF_THS: */
+		/* Free-fall threshold @ FS = ±2 g (refer to Table 77)  */
+		struct FF_THS
+		{
+			/* MODE rw */
+			static const uint8_t mask = 0b00000111; // [0,1,2]
+			static const uint8_t THRESH_5 = 0b00; // 
+			static const uint8_t THRESH_7 = 0b01; // 
+			static const uint8_t THRESH_8 = 0b10; // 
+			static const uint8_t THRESH_13 = 0b101; // 
+			static const uint8_t THRESH_15 = 0b110; // 
+			static const uint8_t THRESH_16 = 0b111; // 
+		};
+	};
+	
+	/* Set register FREE_FALL */
+	void setFREE_FALL(uint8_t value)
+	{
+		write(FREE_FALL::__address, value, 8);
+	}
+	
+	/* Get register FREE_FALL */
+	uint8_t getFREE_FALL()
+	{
+		return read8(FREE_FALL::__address, 8);
+	}
+	
+	
+	/*****************************************************************************************************\
+	 *                                                                                                   *
+	 *                                          REG STATUS_DUP                                           *
+	 *                                                                                                   *
+	\*****************************************************************************************************/
+	
+	/*
+	 * REG STATUS_DUP:
+	 * 8.27
+	 * Event detection status register
+	 */
+	struct STATUS_DUP
+	{
+		static const uint16_t __address = 55;
+		
+		/* Bits OVR: */
+		/* FIFO overrun status flag.  */
+		struct OVR
+		{
+			/* MODE r */
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b10000000; // [7]
+			static const uint8_t NOT_FILLED = 0b0; // FIFO is not completely filled
+			static const uint8_t FILLED = 0b1; // FIFO is completely filled and at least one sample has been overwritten
+		};
+		/* Bits DRDY_T: */
+		/* Temperature status.  */
+		struct DRDY_T
+		{
+			/* MODE r */
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b01000000; // [6]
+			static const uint8_t NO_DATA = 0b0; // data not available
+			static const uint8_t DATA = 0b1; // a new set of data is available
+		};
+		/* Bits SLEEP_STATE_IA: */
+		/* Sleep event status.  */
+		struct SLEEP_STATE_IA
+		{
+			/* MODE r */
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b00100000; // [5]
+			static const uint8_t NO_EVENT = 0b0; // Sleep event not detected
+			static const uint8_t EVENT = 0b1; // Sleep event detected
+		};
+		/* Bits DOUBLE_TAP: */
+		/* Double-tap event status:  */
+		struct DOUBLE_TAP
+		{
+			/* MODE r */
+			static const uint8_t dflt = 0b1; // 1'b1
+			static const uint8_t mask = 0b00010000; // [4]
+			static const uint8_t NO_EVENT = 0b0; // Double-tap event not detected
+			static const uint8_t EVENT = 0b1; // Double-tap event detected
+		};
+		/* Bits SINGLE_TAP: */
+		/* Single-tap event status:  */
+		struct SINGLE_TAP
+		{
+			/* MODE r */
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b00001000; // [3]
+			static const uint8_t NO_EVENT = 0b0; // Single-tap event not detected
+			static const uint8_t EVENT = 0b1; // Single-tap event detected
+		};
+		/* Bits D6_IA: */
+		/* Source of change in position portrait/landscape/face-up/face-down.  */
+		struct D6_IA
+		{
+			/* MODE r */
+			static const uint8_t dflt = 0b0; // 1'b0
+			static const uint8_t mask = 0b00000100; // [2]
+			static const uint8_t NO_EVENT = 0b0; // no event detected
+			static const uint8_t EVENT = 0b1; // a change in position is detected
+		};
+		/* Bits FF_IA: */
+		/* Free-fall event detection status.  */
+		struct FF_IA
+		{
+			/* MODE r */
+			static const uint8_t dflt = 0b1; // 1'b1
+			static const uint8_t mask = 0b00000010; // [1]
+			static const uint8_t NO_EVENT = 0b0; // free-fall event not detected
+			static const uint8_t EVENT = 0b1; // free-fall event detected
+		};
+		/* Bits DRDY: */
+		/* Data-ready status.  */
+		struct DRDY
+		{
+			/* MODE r */
+			static const uint8_t dflt = 0b1; // 1'b1
+			static const uint8_t mask = 0b00000001; // [0]
+			static const uint8_t NOT_READY = 0b0; // not ready
+			static const uint8_t DATA_AVAILABLE = 0b1; // X-, Y- and Z-axis new data available
+		};
+	};
+	
+	/* Set register STATUS_DUP */
+	void setSTATUS_DUP(uint8_t value)
+	{
+		write(STATUS_DUP::__address, value, 8);
+	}
+	
+	/* Get register STATUS_DUP */
+	uint8_t getSTATUS_DUP()
+	{
+		return read8(STATUS_DUP::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                         REG WAKE_UP_SRC                                          *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG WAKE_UP_SRC:
+	 * 8.28
+	 * Wakeup source register (r).
+	 */
+	struct WAKE_UP_SRC
+	{
+		static const uint16_t __address = 56;
+		
+		/* Bits reserved_0: */
+		struct reserved_0
+		{
+			/* MODE r */
+			static const uint8_t dflt = 0b00; // 2'd0
+			static const uint8_t mask = 0b11000000; // [6,7]
+		};
+		/* Bits FF_IA: */
+		/* Free-fall event detection status.  */
+		struct FF_IA
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00100000; // [5]
+			static const uint8_t NO_EVENT = 0b0; // FF event not detected
+			static const uint8_t EVENT = 0b1; // FF event detected
+		};
+		/* Bits SLEEP_STATE_IA: */
+		/* Sleep event status.  */
+		struct SLEEP_STATE_IA
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00010000; // [4]
+			static const uint8_t NO_EVENT = 0b0; // Sleep event not detected
+			static const uint8_t EVENT = 0b1; // Sleep event detected
+		};
+		/* Bits WU_IA: */
+		/* Wakeup event detection status.  */
+		struct WU_IA
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00001000; // [3]
+			static const uint8_t NO_EVENT = 0b0; // Wakeup event not detected
+			static const uint8_t EVENT = 0b1; // Wakeup event is detected
+		};
+		/* Bits X_WU: */
+		/* Wakeup event detection status on X-axis.  */
+		struct X_WU
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00000100; // [2]
+			static const uint8_t NO_EVENT = 0b0; // Wakeup event on X not detected
+			static const uint8_t EVENT = 0b1; // Wakeup event on X-axis is detected
+		};
+		/* Bits Y_WU: */
+		/* Wakeup event detection status on Y-axis.  */
+		struct Y_WU
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00000010; // [1]
+			static const uint8_t NO_EVENT = 0b0; // Wakeup event on Y not detected
+			static const uint8_t EVENT = 0b1; // Wakeup event on Y-axis is detected
+		};
+		/* Bits Z_WU: */
+		/* Wakeup event detection status on Z-axis.  */
+		struct Z_WU
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00000001; // [0]
+			static const uint8_t NO_EVENT = 0b0; // Wakeup event on Z not detected
+			static const uint8_t EVENT = 0b1; // Wakeup event on Z-axis is detected
+		};
+	};
+	
+	/* Set register WAKE_UP_SRC */
+	void setWAKE_UP_SRC(uint8_t value)
+	{
+		write(WAKE_UP_SRC::__address, value, 8);
+	}
+	
+	/* Get register WAKE_UP_SRC */
+	uint8_t getWAKE_UP_SRC()
+	{
+		return read8(WAKE_UP_SRC::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                           REG TAP_SRC                                            *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG TAP_SRC:
+	 * 8.29
+	 * Tap source register
+	 */
+	struct TAP_SRC
+	{
+		static const uint16_t __address = 57;
+		
+		/* Bits reserved_0: */
+		struct reserved_0
+		{
+			/* MODE r */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b10000000; // [7]
+		};
+		/* Bits TAP_IA: */
+		/* Tap event status.  */
+		struct TAP_IA
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b01000000; // [6]
+			static const uint8_t NO_EVENT = 0b0; // tap event not detected
+			static const uint8_t EVENT = 0b1; // tap event detected
+		};
+		/* Bits SINGLE_TAP: */
+		/* Single-tap event status.  */
+		struct SINGLE_TAP
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00100000; // [5]
+			static const uint8_t NO_EVENT = 0b0; // single-tap event not detected
+			static const uint8_t EVENT = 0b1; // single-tap event detected
+		};
+		/* Bits DOUBLE_TAP: */
+		/* Double-tap event status.  */
+		struct DOUBLE_TAP
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00010000; // [4]
+			static const uint8_t NO_EVENT = 0b0; // double-tap event not detected
+			static const uint8_t EVENT = 0b1; // double-tap event detected
+		};
+		/* Bits TAP_SIGN: */
+		/* Sign of acceleration detected by tap event.  */
+		struct TAP_SIGN
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00001000; // [3]
+			static const uint8_t POSITIVE_SIGN = 0b0; // positive sign of acceleration detected
+			static const uint8_t NEGATIVE_SIGN = 0b1; // negative sign of acceleration detected
+		};
+		/* Bits X_TAP: */
+		/* Tap event detection status on X-axis.  */
+		struct X_TAP
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00000100; // [2]
+			static const uint8_t NO_EVENT = 0b0; // Tap event on X not detected
+			static const uint8_t EVENT = 0b1; // Tap event on X-axis is detected
+		};
+		/* Bits Y_TAP: */
+		/* Tap event detection status on Y-axis.  */
+		struct Y_TAP
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00000010; // [1]
+			static const uint8_t NO_EVENT = 0b0; // Tap event on Y not detected
+			static const uint8_t EVENT = 0b1; // Tap event on Y-axis is detected
+		};
+		/* Bits Z_TAP: */
+		/* Tap event detection status on Z-axis.  */
+		struct Z_TAP
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00000001; // [0]
+			static const uint8_t NO_EVENT = 0b0; // Tap event on Z not detected
+			static const uint8_t EVENT = 0b1; // Tap event on Z-axis is detected
+		};
+	};
+	
+	/* Set register TAP_SRC */
+	void setTAP_SRC(uint8_t value)
+	{
+		write(TAP_SRC::__address, value, 8);
+	}
+	
+	/* Get register TAP_SRC */
+	uint8_t getTAP_SRC()
+	{
+		return read8(TAP_SRC::__address, 8);
+	}
+	
+	
+	/*****************************************************************************************************\
+	 *                                                                                                   *
+	 *                                           REG SIXD_SRC                                            *
+	 *                                                                                                   *
+	\*****************************************************************************************************/
+	
+	/*
+	 * REG SIXD_SRC:
+	 * 8.30
+	 * 6D source register
+	 */
+	struct SIXD_SRC
+	{
+		static const uint16_t __address = 58;
+		
+		/* Bits reserved_0: */
+		struct reserved_0
+		{
+			/* MODE r */
+			static const uint8_t dflt = 0b0; // 1'd0
+			static const uint8_t mask = 0b10000000; // [7]
+		};
+		/* Bits D6_IA: */
+		/* Source of change in position portrait/landscape/face-up/face-down.  */
+		struct D6_IA
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b01000000; // [6]
+			static const uint8_t NO_EVENT = 0b0; // no event detected
+			static const uint8_t EVENT = 0b1; // a change in position is detected
+		};
+		/* Bits ZH: */
+		/* ZH over threshold.  */
+		struct ZH
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00100000; // [5]
+			static const uint8_t DOES_NOT_EXCEED_THRESG = 0b0; // ZH does not exceed the threshold
+			static const uint8_t EXCEEDS_THRESG = 0b1; // ZH is over the threshold
+		};
+		/* Bits ZL: */
+		/* ZL over threshold.  */
+		struct ZL
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00010000; // [4]
+			static const uint8_t DOES_NOT_EXCEED_THRESG = 0b0; // ZL does not exceed the threshold
+			static const uint8_t EXCEEDS_THRESG = 0b1; // ZL is over the threshold
+		};
+		/* Bits YH: */
+		/* YH over threshold.  */
+		struct YH
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00001000; // [3]
+			static const uint8_t DOES_NOT_EXCEED_THRESG = 0b0; // YH does not exceed the threshold
+			static const uint8_t EXCEEDS_THRESG = 0b1; // YH is over the threshold
+		};
+		/* Bits YL: */
+		/* YL over threshold.  */
+		struct YL
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00000100; // [2]
+			static const uint8_t DOES_NOT_EXCEED_THRESG = 0b0; // YL does not exceed the threshold
+			static const uint8_t EXCEEDS_THRESG = 0b1; // YL is over the threshold
+		};
+		/* Bits XH: */
+		/* XH over threshold.  */
+		struct XH
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00000010; // [1]
+			static const uint8_t DOES_NOT_EXCEED_THRESG = 0b0; // XH does not exceed the threshold
+			static const uint8_t EXCEEDS_THRESG = 0b1; // XH is over the threshold
+		};
+		/* Bits XL: */
+		/* XL over threshold.  */
+		struct XL
+		{
+			/* MODE r */
+			static const uint8_t mask = 0b00000001; // [0]
+			static const uint8_t DOES_NOT_EXCEED_THRESG = 0b0; // XL does not exceed the threshold
+			static const uint8_t EXCEEDS_THRESG = 0b1; // XL is over the threshold
+		};
+	};
+	
+	/* Set register SIXD_SRC */
+	void setSIXD_SRC(uint8_t value)
+	{
+		write(SIXD_SRC::__address, value, 8);
+	}
+	
+	/* Get register SIXD_SRC */
+	uint8_t getSIXD_SRC()
+	{
+		return read8(SIXD_SRC::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                         REG ALL_INT_SRC                                          *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG ALL_INT_SRC:
+	 * 8.31
+	 * Reading this register, all related interrupt function flags routed to the INT pads are reset simultaneously.
+	 */
+	struct ALL_INT_SRC
+	{
+		static const uint16_t __address = 59;
+		
+		/* Bits reserved_0: */
+		struct reserved_0
+		{
+			static const uint8_t dflt = 0b00; // 2'b0
+			static const uint8_t mask = 0b11000000; // [6,7]
+		};
+		/* Bits SLEEP_CHANGE_IA: */
+		/* Sleep change status.  */
+		struct SLEEP_CHANGE_IA
+		{
+			static const uint8_t mask = 0b00100000; // [5]
+			static const uint8_t NO_CHANGE = 0b0; // Sleep change not detected
+			static const uint8_t CHANGE = 0b1; // Sleep change detected
+		};
+		/* Bits D6_IA: */
+		/* Source of change in position portrait/landscape/face-up/face-down.  */
+		struct D6_IA
+		{
+			static const uint8_t mask = 0b00010000; // [4]
+			static const uint8_t NO_EVENT = 0b0; // no event detected
+			static const uint8_t CHANGE = 0b1; // a change in position detected
+		};
+		/* Bits DOUBLE_TAP: */
+		/* Double-tap event status.  */
+		struct DOUBLE_TAP
+		{
+			static const uint8_t mask = 0b00001000; // [3]
+			static const uint8_t NO_EVENT = 0b0; // double-tap event not detected
+			static const uint8_t EVENT = 0b1; // double-tap event detected
+		};
+		/* Bits SINGLE_TAP: */
+		/* Single-tap event status.  */
+		struct SINGLE_TAP
+		{
+			static const uint8_t mask = 0b00000100; // [2]
+			static const uint8_t NO_EVENT = 0b0; // single-tap event not detected
+			static const uint8_t EVENT = 0b1; // single-tap event detected
+		};
+		/* Bits WU_IA: */
+		/* Wakeup event detection status.  */
+		struct WU_IA
+		{
+			static const uint8_t mask = 0b00000010; // [1]
+			static const uint8_t NO_EVEN = 0b0; // wakeup event not detected
+			static const uint8_t EVENT = 0b1; // wakeup event detected
+		};
+		/* Bits FF_IA: */
+		/* Free-fall event detection status.  */
+		struct FF_IA
+		{
+			static const uint8_t mask = 0b00000001; // [0]
+			static const uint8_t NO_EVENT = 0b0; // free-fall event not detected
+			static const uint8_t EVENT = 0b1; // free-fall event detected
+		};
+	};
+	
+	/* Set register ALL_INT_SRC */
+	void setALL_INT_SRC(uint8_t value)
+	{
+		write(ALL_INT_SRC::__address, value, 8);
+	}
+	
+	/* Get register ALL_INT_SRC */
+	uint8_t getALL_INT_SRC()
+	{
+		return read8(ALL_INT_SRC::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                          REG X_OFS_USR                                           *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG X_OFS_USR:
+	 * 8.32
+	 * Two's complement user offset value on X-axis data, used for wakeup function.
+	 */
+	struct X_OFS_USR
+	{
+		static const uint16_t __address = 60;
+		
+		/* Bits X_OFS_USR: */
+		struct X_OFS_USR_
+		{
+			/* MODE - */
+			static const uint8_t mask = 0b11111111; // [0,1,2,3,4,5,6,7]
+		};
+	};
+	
+	/* Set register X_OFS_USR */
+	void setX_OFS_USR(uint8_t value)
+	{
+		write(X_OFS_USR::__address, value, 8);
+	}
+	
+	/* Get register X_OFS_USR */
+	uint8_t getX_OFS_USR()
+	{
+		return read8(X_OFS_USR::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                          REG Y_OFS_USR                                           *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG Y_OFS_USR:
+	 * 8.33
+	 * Two's complement user offset value on Y-axis data, used for wakeup function.
+	 */
+	struct Y_OFS_USR
+	{
+		static const uint16_t __address = 61;
+		
+		/* Bits Y_OFS_USR: */
+		struct Y_OFS_USR_
+		{
+			/* MODE - */
+			static const uint8_t mask = 0b11111111; // [0,1,2,3,4,5,6,7]
+		};
+	};
+	
+	/* Set register Y_OFS_USR */
+	void setY_OFS_USR(uint8_t value)
+	{
+		write(Y_OFS_USR::__address, value, 8);
+	}
+	
+	/* Get register Y_OFS_USR */
+	uint8_t getY_OFS_USR()
+	{
+		return read8(Y_OFS_USR::__address, 8);
+	}
+	
+	
+	/****************************************************************************************************\
+	 *                                                                                                  *
+	 *                                          REG Z_OFS_USR                                           *
+	 *                                                                                                  *
+	\****************************************************************************************************/
+	
+	/*
+	 * REG Z_OFS_USR:
+	 * 8.34
+	 * Two's complement user offset value on Z-axis data, used for wakeup function.
+	 */
+	struct Z_OFS_USR
+	{
+		static const uint16_t __address = 62;
+		
+		/* Bits Z_OFS_USR: */
+		struct Z_OFS_USR_
+		{
+			/* MODE - */
+			static const uint8_t mask = 0b11111111; // [0,1,2,3,4,5,6,7]
+		};
+	};
+	
+	/* Set register Z_OFS_USR */
+	void setZ_OFS_USR(uint8_t value)
+	{
+		write(Z_OFS_USR::__address, value, 8);
+	}
+	
+	/* Get register Z_OFS_USR */
+	uint8_t getZ_OFS_USR()
+	{
+		return read8(Z_OFS_USR::__address, 8);
+	}
+	
 };
